@@ -4,25 +4,29 @@ output:
   html_document:
     keep_md: true
 ---
+## About
+
+This was the first project for the Reproducible Research course in Coursera's Data Science specialization track. The purpose of the project was to answer a series of questions using 
+[Activity monitoring data] (https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip)
 
 
 ## Loading and preprocessing the data
-
+```{r}
 unzip(zipfile="activity.zip")    
 data <- read.csv("activity.csv")
-
+```
 
 
 ## What is mean total number of steps taken per day?
-
+```{r}
 library(ggplot2)  
 total.steps <- tapply(data$steps, data$date, FUN=sum, na.rm=TRUE)  
 qplot(total.steps, binwidth=1000, xlab="total number of steps taken each day")  
 mean(total.steps, na.rm=TRUE)  
 median(total.steps, na.rm=TRUE)  
-
+```
 ## What is the average daily activity pattern?
-
+```{r}
 library(ggplot2)  
 averages <- aggregate(x=list(steps=data$steps), by=list(interval=data$interval),
                       FUN=mean, na.rm=TRUE)  
@@ -35,8 +39,9 @@ ggplot(data=averages, aes(x=interval, y=steps)) +
 # How many missing  
 missing <- is.na(data$steps)  
 table(missing)  
-
+```
 # Replace each missing value with the mean value of its 5-minute interval  
+```{r}
 fill.value <- function(steps, interval) {  
     filled <- NA  
     if (!is.na(steps))  
@@ -52,9 +57,9 @@ total.steps <- tapply(filled.data$steps, filled.data$date, FUN=sum)
 qplot(total.steps, binwidth=1000, xlab="total number of steps taken each day")  
 mean(total.steps)  
 median(total.steps)  
-
+```
 ## Are there differences in activity patterns between weekdays and weekends?  
-
+```{r}
 weekday.or.weekend <- function(date) {  
     day <- weekdays(date)  
     if (day %in% c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"))  
@@ -66,9 +71,10 @@ weekday.or.weekend <- function(date) {
 }  
 filled.data$date <- as.Date(filled.data$date)  
 filled.data$day <- sapply(filled.data$date, FUN=weekday.or.weekend)  
-
+```
 # Plots for avg number of steps taken on weekdays and weekend. 
-
+```{r}
 averages <- aggregate(steps ~ interval + day, data=filled.data, mean)  
 ggplot(averages, aes(interval, steps)) + geom_line() + facet_grid(day ~ .) +  
     xlab("5-minute interval") + ylab("Number of steps")  
+```
