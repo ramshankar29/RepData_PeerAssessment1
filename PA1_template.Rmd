@@ -22,8 +22,7 @@ unzip(zipfile="activity.zip")
 data <- read.csv("activity.csv")
 ```
 
-
-## What is mean total number of steps taken per day?
+## Finding Mean and Median of total steps taken each day
 ```{r}
 library(ggplot2)  
 totalSteps <- tapply(data$steps, data$date, FUN=sum, na.rm=TRUE)  
@@ -31,15 +30,15 @@ qplot(totalSteps, binwidth=500, xlab="Total number of steps taken each day")
 mean(totalSteps, na.rm=TRUE)  
 median(totalSteps, na.rm=TRUE)  
 ```
-## What is the average daily activity pattern?
+## Finding the average number of steps taken each day
 ```{r}
 library(ggplot2)  
-averages <- aggregate(x=list(steps=data$steps), by=list(interval=data$interval),
+avgSteps <- aggregate(x=list(steps=data$steps), by=list(interval=data$interval),
                       FUN=mean, na.rm=TRUE)  
-ggplot(data=averages, aes(x=interval, y=steps)) +
+ggplot(data=avgSteps, aes(x=interval, y=steps)) +
     geom_line() +  
     xlab("5-minute interval") +  
-    ylab("average number of steps taken")  
+    ylab("Average number of steps taken each day")  
 ```
 ## Imputing missing values   
 ```{r}   
