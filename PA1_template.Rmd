@@ -30,7 +30,7 @@ qplot(totalSteps, binwidth=500, xlab="Total number of steps taken each day")
 mean(totalSteps, na.rm=TRUE)  
 median(totalSteps, na.rm=TRUE)  
 ```
-## Finding the average number of steps taken each day
+## Finding the average number of steps taken each day and 5-minutes interval
 ```{r}
 library(ggplot2)  
 avgSteps <- aggregate(x=list(steps=data$steps), by=list(interval=data$interval),
@@ -42,8 +42,8 @@ ggplot(data=avgSteps, aes(x=interval, y=steps)) +
 ```
 ## Imputing missing values   
 ```{r}   
-missing <- is.na(data$steps)  
-table(missing)  
+missingVal <- is.na(data$steps)  
+table(missingVal)  
 ```
 # Replace each missing value with the mean value of its 5-minute interval  
 ```{r}
