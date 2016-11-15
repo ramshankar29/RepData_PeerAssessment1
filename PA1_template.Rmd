@@ -34,9 +34,9 @@ ggplot(data=averages, aes(x=interval, y=steps)) +
     geom_line() +  
     xlab("5-minute interval") +  
     ylab("average number of steps taken")  
-
-## Imputing missing values  
-# How many missing  
+```
+## Imputing missing values   
+```{r}   
 missing <- is.na(data$steps)  
 table(missing)  
 ```
